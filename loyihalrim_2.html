@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Arena - Mini PUBG</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .stat {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        #score-val { color: #00ffcc; }
+        #health-bar {
+            width: 200px;
+            height: 15px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #555;
+        }
+        #health-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            transition: width 0.3s ease;
+        }
+
+        #game-over {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #00ffcc;
+            text-align: center;
+            z-index: 20;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        button:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div id="ui">
+        <div class="stat">Kills: <span id="score-val">0</span></div>
+        <div id="health-bar"><div id="health-fill"></div></div>
+    </div>
+
+    <div id="game-over">
+        <h1 style="color: #ff416c; font-size: 48px;">O'YIN TUGADI!</h1>
+        <p id="final-score" style="font-size: 24px;"></p>
+        <button onclick="location.reload()">Qaytadan boshlash</button>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score-val');
+        const healthFill = document.getElementById('health-fill');
+        const gameOverEl = document.getElementById('game-over');
+        const finalScoreEl = document.getElementById('final-score');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let score = 0;
+        let gameActive = true;
+
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 15,
+            color: '#00ffcc',
+            health: 100,
+            speed: 5
+        };
+
+        const projectiles = [];
+        const enemies = [];
+        const particles = [];
+
+        // Sichqoncha holati
+        let mouse = { x: 0, y: 0 };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        // Otish
+        window.addEventListener('click', () => {
+            if (!gameActive) return;
+            const angle = Math.atan2(mouse.y - player.y, mouse.x - player.x);
+            projectiles.push({
+                x: player.x,
+                y: player.y,
+                radius: 5,
+                color: '#fff',
+                velocity: {
+                    x: Math.cos(angle) * 10,
+                    y: Math.sin(angle) * 10
+                }
+            });
+        });
+
+        // Klaviatura nazorati
+        const keys = {};
+        window.addEventListener('keydown', (e) => keys[e.code] = true);
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
+
+        function spawnEnemy() {
+            if (!gameActive) return;
+            const radius = Math.random() * (25 - 10) + 10;
+            let x, y;
+
+            if (Math.random() < 0.5) {
+                x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
+                y = Math.random() * canvas.height;
+            } else {
+                x = Math.random() * canvas.width;
+                y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+            }
+
+            const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+            const angle = Math.atan2(player.y - y, player.x - x);
+            
+            enemies.push({
+                x, y, radius, color,
+                velocity: {
+                    x: Math.cos(angle) * 2,
+                    y: Math.sin(angle) * 2
+                }
+            });
+            
+            setTimeout(spawnEnemy, 1000);
+        }
+
+        function createParticles(x, y, color) {
+            for (let i = 0; i < 8; i++) {
+                particles.push({
+                    x, y,
+                    radius: Math.random() * 3,
+                    color,
+                    velocity: {
+                        x: (Math.random() - 0.5) * 5,
+                        y: (Math.random() - 0.5) * 5
+                    },
+                    alpha: 1
+                });
+            }
+        }
+
+        function animate() {
+            if (!gameActive) return;
+            requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.2)'; // Motion blur effekti
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // O'yinchini chizish
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+            ctx.fillStyle = player.color;
+            ctx.fill();
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = player.color;
+            ctx.closePath();
+
+            // Harakat
+            if (keys['KeyW'] && player.y > 0) player.y -= player.speed;
+            if (keys['KeyS'] && player.y < canvas.height) player.y += player.speed;
+            if (keys['KeyA'] && player.x > 0) player.x -= player.speed;
+            if (keys['KeyD'] && player.x < canvas.width) player.x += player.speed;
+
+            // O'qlar
+            projectiles.forEach((p, index) => {
+                p.x += p.velocity.x;
+                p.y += p.velocity.y;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.closePath();
+
+                if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+                    projectiles.splice(index, 1);
+                }
+            });
+
+            // Effektiv zarralar
+            particles.forEach((part, index) => {
+                if (part.alpha <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    part.x += part.velocity.x;
+                    part.y += part.velocity.y;
+                    part.alpha -= 0.02;
+                    ctx.save();
+                    ctx.globalAlpha = part.alpha;
+                    ctx.beginPath();
+                    ctx.arc(part.x, part.y, part.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = part.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            });
+
+            // Dushmanlar
+            enemies.forEach((en, enIdx) => {
+                const angle = Math.atan2(player.y - en.y, player.x - en.x);
+                en.velocity.x = Math.cos(angle) * 2.5;
+                en.velocity.y = Math.sin(angle) * 2.5;
+                
+                en.x += en.velocity.x;
+                en.y += en.velocity.y;
+
+                ctx.beginPath();
+                ctx.arc(en.x, en.y, en.radius, 0, Math.PI * 2);
+                ctx.fillStyle = en.color;
+                ctx.fill();
+                ctx.closePath();
+
+                // O'q tegishi
+                projectiles.forEach((p, pIdx) => {
+                    const dist = Math.hypot(p.x - en.x, p.y - en.y);
+                    if (dist - en.radius - p.radius < 1) {
+                        createParticles(en.x, en.y, en.color);
+                        score += 10;
+                        scoreEl.innerText = score;
+                        setTimeout(() => {
+                            enemies.splice(enIdx, 1);
+                            projectiles.splice(pIdx, 1);
+                        }, 0);
+                    }
+                });
+
+                // O'yinchiga tegishi
+                const distPlayer = Math.hypot(player.x - en.x, player.y - en.y);
+                if (distPlayer - en.radius - player.radius < 1) {
+                    player.health -= 0.5;
+                    healthFill.style.width = player.health + "%";
+                    if (player.health <= 0) {
+                        gameActive = false;
+                        gameOverEl.style.display = 'flex';
+                        finalScoreEl.innerText = "Sizning natijangiz: " + score;
+                    }
+                }
+            });
+        }
+
+        spawnEnemy();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
