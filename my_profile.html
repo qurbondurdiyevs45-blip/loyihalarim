@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💊 Smart Doctor AI</title>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+}
+header {
+    text-align:center;
+    padding:25px;
+}
+.container {
+    background:white;
+    color:black;
+    border-radius:20px 20px 0 0;
+    padding:20px;
+    min-height:80vh;
+}
+input,button {
+    padding:12px;
+    border-radius:10px;
+    border:none;
+}
+button {
+    background:#4facfe;
+    color:white;
+}
+.card {
+    background:#f1f1f1;
+    padding:15px;
+    border-radius:15px;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>💊 Smart Doctor AI</h1>
+<p>Nima yordam kerak? Dori yoz yoki rasm yukla</p>
+</header>
+
+<div class="container">
+
+<input type="text" id="search" placeholder="Masalan: Paracetamol">
+<button onclick="searchDrug()">Qidir</button>
+
+<input type="file" accept="image/*" onchange="uploadImage(event)">
+
+<div id="results"></div>
+
+</div>
+
+<script>
+
+// fallback local baza
+const localDB = {
+    paracetamol: "Og‘riq va isitma uchun ishlatiladi.",
+    ibuprofen: "Yallig‘lanishga qarshi dori.",
+    aspirin: "Qonni suyultiradi va og‘riqni kamaytiradi."
+};
+
+// 🔍 Qidiruv (ALWAYS RESULT)
+async function searchDrug() {
+    let query = document.getElementById("search").value;
+    let results = document.getElementById("results");
+
+    results.innerHTML = "⏳ Qidirilmoqda...";
+
+    // 1️⃣ Wikipedia API
+    try {
+        let res = await fetch(`https://uz.wikipedia.org/api/rest_v1/page/summary/${query}`);
+        let data = await res.json();
+
+        if(data.extract) {
+            results.innerHTML = `
+            <div class="card">
+            <h3>${query}</h3>
+            <p>${data.extract}</p>
+            </div>`;
+            return;
+        }
+    } catch(e) {}
+
+    // 2️⃣ English Wikipedia fallback
+    try {
+        let res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${query}`);
+        let data = await res.json();
+
+        if(data.extract) {
+            results.innerHTML = `
+            <div class="card">
+            <h3>${query}</h3>
+            <p>${data.extract}</p>
+            </div>`;
+            return;
+        }
+    } catch(e) {}
+
+    // 3️⃣ Local fallback (HECH QACHON BO‘SH EMAS)
+    let key = query.toLowerCase();
+    let text = localDB[key] || "Bu dori haqida aniq ma'lumot topilmadi, lekin odatda bu turdagi dorilar og‘riq, isitma yoki infeksiyalar uchun ishlatiladi. Shifokor bilan maslahatlashish tavsiya etiladi.";
+
+    results.innerHTML = `
+    <div class="card">
+    <h3>${query}</h3>
+    <p>${text}</p>
+    </div>`;
+}
+
+
+// 🤖 RASM → NOM (oddiy AI simulyatsiya + fallback)
+function uploadImage(event) {
+    let file = event.target.files[0];
+
+    if(!file) return;
+
+    // fake AI: file nomidan foydalanadi
+    let name = file.name.split(".")[0];
+
+    document.getElementById("search").value = name;
+
+    searchDrug();
+}
+
+</script>
+
+</body>
+</html>
