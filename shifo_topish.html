@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sardorbek — Tibbiy Maslahat Portali</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        medical: '#059669',
+                        health: '#10b981',
+                        ocean: '#0ea5e9',
+                        dark: '#1e293b',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(16, 185, 129, 0.2)',
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .hero-gradient {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-dark">
+
+<!-- Navigatsiya -->
+<header class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-emerald-100">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🌿</span>
+            <span class="text-xl font-bold tracking-tight text-medical underline decoration-health">SardorCare</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-600">
+            <a href="#about" class="hover:text-medical transition">Men haqimda</a>
+            <a href="#tips" class="hover:text-medical transition">Tavsiyalar</a>
+            <a href="#prevention" class="hover:text-medical transition">Oldini olish</a>
+            <a href="#contact" class="hover:text-medical transition">Aloqa</a>
+        </div>
+        <a href="#tips" class="bg-medical text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-health transition shadow-glow">Maslahat olish</a>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section id="about" class="hero-gradient pt-32 pb-20 px-6">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+                Sog'lom hayot — <br><span class="text-medical">bilimdan boshlanadi!</span>
+            </h1>
+            <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                Men Sardorbek, ushbu sahifa orqali sizga kasalliklarni qanday qilib barvaqt aniqlash va ularning oldini olish bo'yicha eng samarali tibbiy tavsiyalarni ulashaman. Sog'ligingizni asrash o'z qo'lingizda.
+            </p>
+            <div class="flex gap-4">
+                <div class="flex -space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-white text-xs">S</div>
+                    <div class="w-10 h-10 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center text-white text-xs">M</div>
+                    <div class="w-10 h-10 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center text-white text-xs">B</div>
+                </div>
+                <p class="text-sm text-slate-500">1000 dan ortiq kishi foydalanmoqda</p>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="bg-white p-8 rounded-3xl shadow-2xl border border-emerald-50">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-2xl">💡</div>
+                    <h3 class="font-bold text-xl text-slate-800">Kunlik maslahat</h3>
+                </div>
+                <p class="italic text-slate-600 border-l-4 border-medical pl-4">
+                    "Kuniga 15 daqiqa piyoda yurish yurak-qon tomir kasalliklari xavfini 30% ga kamaytiradi."
+                </p>
+                <div class="mt-8 grid grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 p-4 rounded-xl text-center">
+                        <span class="block text-2xl font-bold text-medical">100%</span>
+                        <span class="text-xs text-slate-500 uppercase tracking-wider">Tabiiy yondashuv</span>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl text-center">
+                        <span class="block text-2xl font-bold text-ocean">24/7</span>
+                        <span class="text-xs text-slate-500 uppercase tracking-wider">Ma'lumot</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Kasalliklarni oldini olish -->
+<section id="tips" class="py-24 bg-white px-6">
+    <div class="max-w-7xl mx-auto text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Profilaktika choralari</h2>
+        <p class="text-slate-500">Kasallikni davolashdan ko'ra, uning oldini olish osonroq.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+        <!-- Tip 1 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-medical transition group">
+            <div class="w-14 h-14 bg-white rounded-xl shadow-md flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">🍎</div>
+            <h3 class="text-xl font-bold mb-3">To'g'ri ovqatlanish</h3>
+            <ul class="text-slate-600 space-y-2 text-sm">
+                <li>• Shakar iste'molini kamaytiring</li>
+                <li>• Ko'proq ko'katlar va mevalar</li>
+                <li>• Kuniga 2 litr toza suv iching</li>
+            </ul>
+        </div>
+
+        <!-- Tip 2 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-medical transition group">
+            <div class="w-14 h-14 bg-white rounded-xl shadow-md flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">🧘‍♂️</div>
+            <h3 class="text-xl font-bold mb-3">Ruhiy xotirjamlik</h3>
+            <ul class="text-slate-600 space-y-2 text-sm">
+                <li>• Stressdan saqlanish yo'llari</li>
+                <li>• Sifatli uyqu (7-8 soat)</li>
+                <li>• Dam olish vaqtini rejalashtirish</li>
+            </ul>
+        </div>
+
+        <!-- Tip 3 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-medical transition group">
+            <div class="w-14 h-14 bg-white rounded-xl shadow-md flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">🏃‍♂️</div>
+            <h3 class="text-xl font-bold mb-3">Jismoniy faollik</h3>
+            <ul class="text-slate-600 space-y-2 text-sm">
+                <li>• Haftada 3 marta mashq qilish</li>
+                <li>• Ertalabki badantarbiya</li>
+                <li>• Lift o'rniga zinadan foydalaning</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Shifokor tavsiyalari -->
+<section id="prevention" class="bg-dark py-24 text-white px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-8">Mutaxassisdan muhim tavsiyalar</h2>
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 shrink-0 bg-health/20 rounded-full flex items-center justify-center text-health font-bold">1</div>
+                        <p class="text-slate-300"><strong class="text-white">Tekshiruvdan o'ting:</strong> Har yili kamida bir marta umumiy tibbiy ko'rikdan (Check-up) o'tishni kanda qilmang.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 shrink-0 bg-health/20 rounded-full flex items-center justify-center text-health font-bold">2</div>
+                        <p class="text-slate-300"><strong class="text-white">Gigiyena:</strong> Qo'llarni tez-tez yuvish va shaxsiy gigiyenaga amal qilish yuqumli kasalliklardan 80% himoya qiladi.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 shrink-0 bg-health/20 rounded-full flex items-center justify-center text-health font-bold">3</div>
+                        <p class="text-slate-300"><strong class="text-white">Zararli odatlar:</strong> Chekish va spirtli ichimliklardan voz kechish umrni o'rtacha 10-15 yilga uzaytiradi.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-br from-medical to-ocean p-1 rounded-3xl">
+                <div class="bg-dark p-8 rounded-[22px] text-center">
+                    <span class="text-5xl block mb-4">🩺</span>
+                    <h3 class="text-2xl font-bold mb-4">Sog'ligingizni hoziroq tekshiring</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">
+                        Agar sizda surunkali charchoq, bosh og'rig'i yoki holsizlik bo'lsa, bu tanangizning yordam so'rayotgan belgisidir.
+                    </p>
+                    <button class="w-full bg-white text-dark py-3 rounded-xl font-bold hover:bg-slate-100 transition">Alomatlarni aniqlash</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Aloqa -->
+<section id="contact" class="py-24 px-6 bg-slate-50">
+    <div class="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-xl">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold">Savollaringiz bormi?</h2>
+            <p class="text-slate-500 mt-2">Ma'lumot olish uchun quyidagi formani to'ldiring</p>
+        </div>
+        <form class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" placeholder="Ismingiz" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical outline-none">
+                <input type="email" placeholder="Emailingiz" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical outline-none">
+            </div>
+            <textarea placeholder="Murojaatingiz matni..." rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-medical outline-none"></textarea>
+            <button class="w-full bg-medical text-white py-4 rounded-xl font-bold shadow-glow hover:bg-health transition">Yuborish</button>
+        </form>
+    </div>
+</section>
+<!-- BMI Kalkulyator Section -->
+<section class="py-20 bg-emerald-50 px-6">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-lg border border-emerald-100">
+        <h2 class="text-2xl font-bold text-center mb-6 text-medical">Vazningizni tekshirib ko'ring (BMI)</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            <input id="weight" type="number" placeholder="Vazningiz (kg)" class="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-medical">
+            <input id="height" type="number" placeholder="Bo'yingiz (cm)" class="p-3 border rounded-xl outline-none focus:ring-2 focus:ring-medical">
+        </div>
+        <button onclick="calculateBMI()" class="w-full mt-6 bg-medical text-white py-3 rounded-xl font-bold hover:bg-health transition">Hisoblash</button>
+        <p id="bmi-result" class="mt-4 text-center font-semibold text-slate-700"></p>
+    </div>
+</section>
+
+<script>
+function calculateBMI() {
+    const w = document.getElementById('weight').value;
+    const h = document.getElementById('height').value / 100;
+    if(w && h) {
+        const bmi = (w / (h * h)).toFixed(1);
+        let status = bmi < 18.5 ? "Vazn yetishmovchiligi" : bmi < 25 ? "Normal vazn" : "Ortiqcha vazn";
+        document.getElementById('bmi-result').innerText = `Sizning BMI ko'rsatkichingiz: ${bmi} (${status})`;
+    }
+}
+</script>
+
+<!-- Footer -->
+<footer class="py-12 border-t border-slate-200 text-center bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex justify-center items-center gap-2 mb-6">
+            <span class="text-2xl">🌿</span>
+            <span class="text-xl font-bold tracking-tight text-medical">SardorCare</span>
+        </div>
+        <p class="text-slate-400 text-sm">© 2026 Sardorbek Qurbondurdiyev. Barcha ma'lumotlar tavsiyaviy xarakterga ega.</p>
+    </div>
+</footer>
+
+</body>
+</html>

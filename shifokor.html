@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SardorCare — Professional Medical AI</title>
+    <!-- Tailwind CSS va Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: { medical: '#059669', health: '#10b981', dark: '#0f172a' },
+                },
+            },
+        };
+    </script>
+    <style>
+        body { scroll-behavior: smooth; }
+        .chat-container::-webkit-scrollbar { width: 5px; }
+        .chat-container::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .typing::after { content: '...'; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-slate-50 text-dark">
+
+    <!-- Navigatsiya -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-emerald-100 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-medical text-white p-1.5 rounded-lg shadow-lg">🩺</div>
+                <span class="text-xl font-bold text-medical tracking-tight">SardorCare AI</span>
+            </div>
+            <div class="flex gap-4">
+                <a href="#chat-section" class="bg-medical text-white px-4 py-2 rounded-full text-xs font-bold hover:scale-105 transition shadow-lg">AI Maslahat</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 px-6 text-center bg-gradient-to-b from-emerald-50 to-white">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-slate-900 leading-tight">
+            Sog'ligingiz — <br><span class="text-medical">SardorCare AI</span> himoyasida!
+        </h1>
+        <p class="max-w-2xl mx-auto text-slate-600 mb-8">
+            Ushbu tizim dunyodagi eng zamonaviy tibbiy ma'lumotlar bazasi asosida ishlaydi. 
+            Sizga muomala qiladi, dardni tahlil qiladi va kerakli dorini tavsiya etadi.
+        </p>
+    </header>
+
+    <!-- AI Shifokor Chat -->
+    <section id="chat-section" class="py-12 px-6">
+        <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl border border-emerald-50 overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-medical p-5 flex items-center gap-4 text-white">
+                <div class="relative">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl shadow-inner">👨‍⚕️</div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-lime-400 border-2 border-medical rounded-full"></div>
+                </div>
+                <div>
+                    <h2 class="font-bold">Doktor Sardorbek AI</h2>
+                    <p class="text-[10px] opacity-90 uppercase tracking-widest">Hozir onlayn | Professional shifokor</p>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div id="ai-chat" class="chat-container h-[450px] overflow-y-auto p-6 space-y-6 bg-slate-50/30">
+                <div class="flex gap-3 fade-in">
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 max-w-[85%] text-sm leading-relaxed">
+                        Assalomu alaykum! Men sizning aqlli shifokoringizman. O'zingizni qanday his qilyapsiz? Nimadir bezovta qilyaptimi yoki dori so'ramoqchimisiz?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white border-t border-slate-100">
+                <div class="flex gap-2 bg-slate-100 rounded-2xl p-2 focus-within:ring-2 focus-within:ring-medical transition-all">
+                    <input type="text" id="ai-input" placeholder="Masalan: boshim og'riyapti, dori ayting..." 
+                           class="flex-1 bg-transparent border-none outline-none px-4 py-3 text-sm"
+                           onkeypress="if(event.key === 'Enter') askAI()">
+                    <button onclick="askAI()" id="send-btn" class="bg-medical text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-700 active:scale-95 transition shadow-md">
+                        Yuborish
+                    </button>
+                </div>
+                <p class="text-[10px] text-center text-slate-400 mt-4 italic">Diqqat: AI maslahati umumiy xarakterga ega. Zarur hollarda haqiqiy shifokorga murojaat qiling.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white border-t text-center">
+        <p class="text-slate-400 text-xs italic">© 2026 SardorCare — Sardorbek Qurbondurdiyev tomonidan yaratilgan</p>
+        <div class="mt-4 flex justify-center gap-4 grayscale opacity-50">
+            <span class="text-2xl">💊</span>
+            <span class="text-2xl">❤️</span>
+            <span class="text-2xl">🍏</span>
+        </div>
+    </footer>
+
+    <script>
+        // AI DATA ENGINE
+        const medicalDB = {
+            "bosh": {
+                diag: "Bosh og'rig'i yoki migren.",
+                dori: "Tsitramon, Analgin yoki Ibuprofen (1 tabletka).",
+                advice: "Xavotir olmang, ko'p hollarda bu charchoqdan bo'ladi. Biroz dam oling va suv iching."
+            },
+            "isitma": {
+                diag: "Tana harorati ko'tarilishi (Shamollash).",
+                dori: "Paratsetamol (500mg) yoki Taylol-hot (choy qilib ichish).",
+                advice: "Issiq o'raning va S vitaminiga boy mevalar yeng. Agar isitma 3 kun tushmasa, shifokor chaqiring."
+            },
+            "yo'tal": {
+                diag: "Nafas yo'llari shamollashi.",
+                dori: "Mukaltin, ACC yoki Ambroksol siropi.",
+                advice: "Asalli iliq sut iching va tomoqni issiq saqlang."
+            },
+            "qorin": {
+                diag: "Oshqozon-ichak buzilishi yoki spazm.",
+                dori: "No-shpa (og'riqqa), Mezim (hazm uchun) yoki Smekta.",
+                advice: "Hozircha qattiq ovqat yemang, achchiq choy ichish foydali."
+            },
+            "tomog": {
+                diag: "Angina yoki tomoq yallig'lanishi.",
+                dori: "Grammidin, Lizobakt yoki Furatsilin bilan chayish.",
+                advice: "Muzdek suv ichishdan tiyiling, tomoqni issiq ro'mol bilan bog'lab oling."
+            },
+            "tish": {
+                diag: "Tish og'rig'i (Karies yoki yallig'lanish).",
+                dori: "Ketanov (kuchli og'riqqa) yoki Nimesil.",
+                advice: "Og'riq qoldiruvchi vaqtincha yordam beradi, tezroq stomatologga borish shart."
+            },
+            "gripp": {
+                diag: "O'tkir respirator infeksiya.",
+                dori: "Antigrippin, Ingavirin yoki Viferon surtmasi.",
+                advice: "Sizga 3 kunlik yotoq rejimi va ko'p itburnu damlamasi kerak."
+            }
+        };
+
+        function askAI() {
+            const input = document.getElementById('ai-input');
+            const chat = document.getElementById('ai-chat');
+            const btn = document.getElementById('send-btn');
+            const userText = input.value.trim().toLowerCase();
+
+            if (!userText) return;
+
+            // User Message
+            chat.innerHTML += `
+                <div class="flex justify-end fade-in">
+                    <div class="bg-medical text-white p-4 rounded-2xl rounded-tr-none max-w-[85%] text-sm shadow-md">
+                        ${input.value}
+                    </div>
+                </div>
+            `;
+            
+            input.value = "";
+            chat.scrollTop = chat.scrollHeight;
+
+            // Typing Animation
+            const typingId = 'type-' + Date.now();
+            chat.innerHTML += `
+                <div id="${typingId}" class="flex gap-2 items-center fade-in">
+                    <div class="bg-white p-3 rounded-xl border text-xs text-slate-400 font-bold italic">
+                        Shifokor javob yozmoqda<span class="typing"></span>
+                    </div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById(typingId).remove();
+                let reply = "";
+                let found = false;
+
+                for (let key in medicalDB) {
+                    if (userText.includes(key)) {
+                        const res = medicalDB[key];
+                        reply = `<b>Salom!</b> Men sizni eshitaman. <br><br>
+                                 📌 <b>Holat:</b> ${res.diag} <br>
+                                 💊 <b>Tavsiya etilgan dori:</b> ${res.dori} <br>
+                                 ✅ <b>Muomala/Maslahat:</b> ${res.advice} <br><br>
+                                 Sizga doimo sog'lik tilayman! 😊`;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    reply = `Savolingiz uchun rahmat! Men sizga yordam berishga tayyorman.<br><br> 
+                             Hozircha sizga ko'proq vitaminlar va dam olishni tavsiya qilaman. Agar o'zingizni yomon his qilsangiz, albatta shifokorga murojaat qiling. <br><br>
+                             <i>Aniqroq dori aytishim uchun alomatlarni (masalan: isitma, bosh og'rig'i) yozing.</i>`;
+                }
+
+                chat.innerHTML += `
+                    <div class="flex gap-3 fade-in">
+                        <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-[10px] shrink-0 shadow-lg">AI</span>
+                        <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border-l-4 border-l-medical border-slate-100 max-w-[85%] text-sm leading-relaxed">
+                            ${reply}
+                        </div>
+                    </div>
+                `;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
